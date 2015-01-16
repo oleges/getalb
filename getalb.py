@@ -147,7 +147,12 @@ def main():
     print 'Album: ' + album_name
     temporary_links = get_temporary_links(parsed_album_page)
     print 'Found {0} file(s)'.format(len(temporary_links))
+    
     music_dir = os.path.dirname(os.path.realpath(__file__)) + '/music'
+    music_dir_not_exists = not os.path.exists(music_dir)
+    if music_dir_not_exists:
+        os.mkdir(music_dir)
+    
     os.chdir(music_dir)
     album_dir_not_exists = not os.path.exists(album_name)
     if album_dir_not_exists:
