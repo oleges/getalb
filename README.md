@@ -9,8 +9,11 @@ Script uses BeautifulSoup library for parsing html pages.
 ## Version history
 
 0.1.0 - Initial release.
+
 0.2.0 - Almost all code have been refactored according to PEP 8.
+
 0.2.1 - Fixed crash with no URL passed as input.
+
 0.2.2 - Albums are saved to getalb/music/ dir irrespective from cwd.
 
 ## Known issues
