@@ -11,7 +11,7 @@ Script uses BeautifulSoup library for parsing html pages.
 __author__ = 'Oleg Esenkov (oleges@list.ru)'
 __copyright__ = 'Copyright (c) 2015 Oleg Esenkov'
 __license__ = 'The MIT License (MIT)'
-__version__ = '0.2.2'
+__version__ = '0.2.3'
 
 import argparse
 import os

@@ -1,4 +1,4 @@
-# getalb 0.2.2
+# getalb 0.2.3
 
 Script for downloading entire albums at once from http://musicmp3spb.org,
 as opposite to song-by-song manual downloading.
@@ -14,7 +14,10 @@ Script uses BeautifulSoup library for parsing html pages.
 
 0.2.1 - Fixed crash with no URL passed as input.
 
-0.2.2 - Albums are saved to getalb/music/ dir irrespective from cwd.
+0.2.2 - Fixed savind albums to cwd. Albums are saved to 'getalb/music/' dir
+irrespective from cwd.
+
+0.2.3 - Fixed missing '/music' dir.
 
 ## Known issues
 
