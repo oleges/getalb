@@ -80,6 +80,12 @@ def get_album_name(parsed_album_page):
         sys.exit()
 
 
+def unify_album_name(album_name):
+    """Delete OS reserved characters from album name."""
+    album_name = re.sub('[<>:"/\\|?*]', '_', album_name)
+    return album_name
+
+
 def get_temporary_links(parsed_album_page):
     """Return list of temporary links to songs."""
     temporary_links = []
@@ -143,16 +149,17 @@ def main():
     print 'Connecting...'
     album_page = web_request(album_url)
     parsed_album_page = parse_page(album_page)
-    album_name = get_album_name(parsed_album_page)
+    raw_album_name = get_album_name(parsed_album_page)
+    album_name = unify_album_name(raw_album_name)
     print 'Album: ' + album_name
     temporary_links = get_temporary_links(parsed_album_page)
     print 'Found {0} file(s)'.format(len(temporary_links))
-    
+
     music_dir = os.path.dirname(os.path.realpath(__file__)) + '/music'
     music_dir_not_exists = not os.path.exists(music_dir)
     if music_dir_not_exists:
         os.mkdir(music_dir)
-    
+
     os.chdir(music_dir)
     album_dir_not_exists = not os.path.exists(album_name)
     if album_dir_not_exists:
