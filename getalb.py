@@ -11,7 +11,7 @@ Script uses BeautifulSoup library for parsing html pages.
 __author__ = 'Oleg Esenkov (oleges@list.ru)'
 __copyright__ = 'Copyright (c) 2015 Oleg Esenkov'
 __license__ = 'The MIT License (MIT)'
-__version__ = '0.2.3'
+__version__ = '0.2.4'
 
 import argparse
 import os
@@ -125,6 +125,7 @@ def download_song(song_link):
     metadata = song_file.info()
     file_size = int(metadata.getheaders('Content-Length')[0])
     file_name = metadata.getheaders('Content-Disposition')[0].split('\"')[1]
+
     file_not_exists = not os.path.isfile(file_name)
     if file_not_exists or (os.stat(file_name).st_size != file_size):
         downloading_not_finished = True
@@ -147,11 +148,13 @@ def download_song(song_link):
 def main():
     album_url = get_url()
     print 'Connecting...'
+
     album_page = web_request(album_url)
     parsed_album_page = parse_page(album_page)
     raw_album_name = get_album_name(parsed_album_page)
     album_name = unify_album_name(raw_album_name)
     print 'Album: ' + album_name
+
     temporary_links = get_temporary_links(parsed_album_page)
     print 'Found {0} file(s)'.format(len(temporary_links))
 
@@ -159,12 +162,13 @@ def main():
     music_dir_not_exists = not os.path.exists(music_dir)
     if music_dir_not_exists:
         os.mkdir(music_dir)
-
     os.chdir(music_dir)
+
     album_dir_not_exists = not os.path.exists(album_name)
     if album_dir_not_exists:
         os.mkdir(album_name)
     os.chdir(album_name)
+
     for link in temporary_links:
         temp_page = web_request(link)
         parsed_temp_page = parse_page(temp_page)
@@ -174,6 +178,7 @@ def main():
         parsed_song_page = parse_page(song_page)
         song_link = get_song_link(parsed_song_page)
         download_song(song_link)
+
     raw_input('All files downloaded successfully. Press ENTER to exit.')
 
 if __name__ == '__main__':

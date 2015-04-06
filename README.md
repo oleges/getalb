@@ -1,4 +1,4 @@
-# getalb 0.2.3
+# getalb 0.2.4
 
 Script for downloading entire albums at once from http://musicmp3spb.org,
 as opposite to song-by-song manual downloading.
@@ -19,9 +19,10 @@ irrespective from cwd.
 
 0.2.3 - Fixed missing '/music' dir.
 
-## Known issues
+0.2.4 - Added function unify_album_name for deleting OS reserved characters.
+Improved code readability.
 
-* Crashes on album names with forbidden symbols.
+## Known issues
 
 ## License
 
