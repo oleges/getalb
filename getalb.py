@@ -11,7 +11,7 @@ Script uses BeautifulSoup library for parsing html pages.
 __author__ = 'Oleg Esenkov (oleges@list.ru)'
 __copyright__ = 'Copyright (c) 2015 Oleg Esenkov'
 __license__ = 'The MIT License (MIT)'
-__version__ = '0.2.4'
+__version__ = '0.2.5'
 
 import argparse
 import os
@@ -69,6 +69,17 @@ def parse_page(response):
     return parsed_page
 
 
+def get_artist_name(parsed_album_page):
+    """Return artist name string."""
+    try:
+        content_div = parsed_album_page.find('div', {'id': 'cntCenter'})
+        artist_name = content_div.find_all('h1')[0].a.string.replace(' mp3', '')
+        return artist_name
+    except AttributeError:
+        raw_input('Wrong url. No album found. Press ENTER to exit.')
+        sys.exit()
+
+
 def get_album_name(parsed_album_page):
     """Return album name string."""
     try:
@@ -80,10 +91,10 @@ def get_album_name(parsed_album_page):
         sys.exit()
 
 
-def unify_album_name(album_name):
-    """Delete OS reserved characters from album name."""
-    album_name = re.sub('[<>:"/\\|?*]', '_', album_name)
-    return album_name
+def unify_name(name):
+    """Delete OS reserved characters from name."""
+    name = re.sub('[<>:"/\\|?*]', '_', name)
+    return name
 
 
 def get_temporary_links(parsed_album_page):
@@ -151,8 +162,12 @@ def main():
 
     album_page = web_request(album_url)
     parsed_album_page = parse_page(album_page)
+    
+    artist_name = unify_name(get_artist_name(parsed_album_page))
+    print 'Artist: ' + artist_name
+
     raw_album_name = get_album_name(parsed_album_page)
-    album_name = unify_album_name(raw_album_name)
+    album_name = unify_name(raw_album_name)
     print 'Album: ' + album_name
 
     temporary_links = get_temporary_links(parsed_album_page)
@@ -163,6 +178,11 @@ def main():
     if music_dir_not_exists:
         os.mkdir(music_dir)
     os.chdir(music_dir)
+
+    artist_dir_not_exists = not os.path.exists(artist_name)
+    if artist_dir_not_exists:
+        os.mkdir(artist_name)
+    os.chdir(artist_name)
 
     album_dir_not_exists = not os.path.exists(album_name)
     if album_dir_not_exists:
